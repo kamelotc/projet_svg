@@ -19,7 +19,7 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
         case 'C': fprintf(svg, "<circle cx=\"%d\" cy=\"%d\" r=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, color); break;
         case 'E': fprintf(svg, "<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, height/2, color); break;
         case 'R': fprintf(svg, "<rect width=\"%d\" height=\"%d\" x=\"0\" fill=\"#%s\"/>", width, height, color); break;
-        default: fputs ("ERROR: This shape could not be recognized despite passing the first check?", stderr); break;
+        default: fputs("ERROR: This shape could not be recognized despite passing the first check?", stderr); break;
     }
 }
 
@@ -35,7 +35,7 @@ int main(void) {
     printf("\nE = Ellipse");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
-        fputs ("ERROR: Invalid input.\n", stderr);
+        fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
 
@@ -43,21 +43,21 @@ int main(void) {
     //Puis on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
     if (strpbrk(&shape, "CRE") == 0) {
-        fputs ("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
+        fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
         return EXIT_FAILURE;
     }
 
     //On demande la largeur de la forme qui doit être supérieure à 0.
     printf("Choisissez la largeur : ");
     if (scanf("%d",&width) != 1 && width <= 0) {
-        fputs ("ERROR: Invalid input.\n", stderr);
+        fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
 
     //On demande la hauteur de la forme qui doit être supérieure à 0.
     printf("\nChoisissez la hauteur : ");
     if (scanf("%d",&height) != 1 && height <= 0) {
-        fputs ("ERROR: Invalid input.\n", stderr);
+        fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
 
