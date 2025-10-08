@@ -13,7 +13,7 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
 }
 
 int main(void) {
-    const FILE *svg = fopen("mon_dessin.svg", "w");
+    const FILE *svg = fopen("resultat.svg", "w");
 
     char shape;
     int width = 0;
