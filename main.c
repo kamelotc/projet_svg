@@ -64,9 +64,9 @@ int main(void) {
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
     //Puis on écrit les infos SVG dedans.
     const FILE *svg = fopen("resultat.svg", "w");
-    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">", width, height, width, height);
+    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", width, height, width, height);
     generateShape(svg, shape, width, height, NULL);
-    fprintf(svg, "</svg>");
+    fprintf(svg, "\n</svg>");
 
     return EXIT_SUCCESS;
 }
