@@ -8,6 +8,7 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
         color = "ff0000";
     switch (shape) {
         case 'C': fprintf(svg, "<circle cx=\"%d\" cy=\"%d\" r=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, color); break;
+        case 'E': fprintf(svg, "<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, height/2, color); break;
         case 'R': fprintf(svg, "<rect width=\"%d\" height=\"%d\" x=\"0\" fill=\"#%s\"/>", width, height, color); break;
         default: fputs ("ERROR: This shape could not be recognized despite passing the first check?", stderr); break;
     }
