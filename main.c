@@ -39,7 +39,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    //On la met en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
+    //On met le caractère en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
     //Puis on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
     if (strpbrk(&shape, "CRE") == 0) {
