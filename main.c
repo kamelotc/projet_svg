@@ -14,8 +14,6 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
 }
 
 int main(void) {
-    const FILE *svg = fopen("resultat.svg", "w");
-
     char shape;
     int width = 0;
     int height = 0;
@@ -47,6 +45,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    const FILE *svg = fopen("resultat.svg", "w");
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">", width, height, width, height);
     generateShape(svg, shape, width, height, NULL);
     fprintf(svg, "</svg>");
