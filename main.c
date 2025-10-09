@@ -24,6 +24,13 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
     }
 }
 
+/**
+* Génère une forme "classique", c'est-à-dire une forme ne prenant qu'une largeur et une hauteur pour la créer. Comprend les rectangles et les ellipses.
+ * @param svg Le fichier SVG à modifier.
+ * @param shape Le caractère représentant la forme pour l'identifier, habituellement sa première lettre.
+ * @param color La couleur de la forme.
+ * @return 1 si une erreur s'est produite, 0 sinon.
+ */
 int generateClassicShape(FILE *svg, const char shape, char color[6]) {
     if (color == NULL)
         color = "ff0000";
@@ -52,6 +59,12 @@ int generateClassicShape(FILE *svg, const char shape, char color[6]) {
     return EXIT_SUCCESS;
 }
 
+/**
+ * Génère un cercle ne prenant qu'un rayon comme paramètre.
+ * @param svg Le fichier SVG à modifier.
+ * @param color La couleur du cercle.
+ * @return 1 si une erreur s'est produite, 0 sinon.
+ */
 int generateCircle(FILE *svg, char color[6]) {
     if (color == NULL)
         color = "ff0000";
@@ -86,7 +99,7 @@ int main(void) {
     }
 
     //On met le caractère en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
-    //Puis on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
+    //Puis, on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
     if (strpbrk(&shape, "CRE") == 0) {
         fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
@@ -94,7 +107,7 @@ int main(void) {
     }
 
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
-    //Puis on écrit les infos SVG dedans.
+    //Puis, on écrit les infos SVG dedans.
     const FILE *svg = fopen("resultat.svg", "w");
     if (strpbrk(&shape, "RE") != 0) {
         exit = generateClassicShape(svg, shape, NULL);
