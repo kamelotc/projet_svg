@@ -9,6 +9,7 @@
  * @param width La largeur de la forme.
  * @param height La hauteur de la forme.
  * @param color La couleur de la forme.
+ * @deprecated Fonction anciennement utilisée pour générer toutes les formes. Remplacée par des fonctions spécialisées pour pouvoir ajouter des paramètres uniques à certaines formes.
  */
 void generateShape(FILE *svg, const char shape, const int width, const int height, char color[6]) {
     //On donne une couleur par défaut (rouge.)
@@ -23,10 +24,54 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
     }
 }
 
-int main(void) {
-    char shape;
+int generateClassicShape(FILE *svg, const char shape, char color[6]) {
+    if (color == NULL)
+        color = "ff0000";
     int width = 0;
     int height = 0;
+    //On demande la largeur de la forme qui doit être supérieure à 0.
+    printf("Choisissez la largeur (au-dessus de 0) : ");
+    if (scanf("%d",&width) != 1 || width <= 0) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    //On demande la hauteur de la forme qui doit être supérieure à 0.
+    printf("\nChoisissez la hauteur (au-dessus de 0) : ");
+    if (scanf("%d",&height) != 1 || height <= 0) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", width, height, width, height);
+    switch (shape) {
+        case 'E': fprintf(svg, "<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, height/2, color); break;
+        case 'R': fprintf(svg, "<rect width=\"%d\" height=\"%d\" x=\"0\" fill=\"#%s\"/>", width, height, color); break;
+        default: fputs("ERROR: Attempted to generate classic shape but could not be identified?", stderr); return EXIT_FAILURE;
+    }
+    fprintf(svg, "\n</svg>");
+    return EXIT_SUCCESS;
+}
+
+int generateCircle(FILE *svg, char color[6]) {
+    if (color == NULL)
+        color = "ff0000";
+    int radius = 0;
+    //On demande le rayon du cercle qui doit être supérieur à 0.
+    printf("Choisissez le rayon (au-dessus de 0) : ");
+    if (scanf("%d",&radius) != 1 || radius <= 0) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", radius*2, radius*2, radius*2, radius*2);
+    fprintf(svg, "<circle cx=\"%d\" cy=\"%d\" r=\"%d\" fill=\"#%s\"/>", radius, radius, radius, color);
+    fprintf(svg, "\n</svg>");
+    return EXIT_SUCCESS;
+}
+
+int main(void) {
+    char shape;
+    int exit = EXIT_SUCCESS;
 
     //On demande la forme. On l'identifie à l'aide d'un seul caractère.
     //(Habituellement la première lettre.)
@@ -48,26 +93,13 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    //On demande la largeur de la forme qui doit être supérieure à 0.
-    printf("Choisissez la largeur : ");
-    if (scanf("%d",&width) != 1 && width <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
-    //On demande la hauteur de la forme qui doit être supérieure à 0.
-    printf("\nChoisissez la hauteur : ");
-    if (scanf("%d",&height) != 1 && height <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
     //Puis on écrit les infos SVG dedans.
     const FILE *svg = fopen("resultat.svg", "w");
-    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", width, height, width, height);
-    generateShape(svg, shape, width, height, NULL);
-    fprintf(svg, "\n</svg>");
-
-    return EXIT_SUCCESS;
+    if (strpbrk(&shape, "RE") != 0) {
+        exit = generateClassicShape(svg, shape, NULL);
+    } else if (shape == 'C') {
+        exit = generateCircle(svg, NULL);
+    }
+    return exit;
 }
