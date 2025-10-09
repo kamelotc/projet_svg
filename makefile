@@ -3,5 +3,3 @@ FLAGS := -std=c99 -Wall -Werror -Wextra
 
 build:
     $(CC) $(FLAGS) main.c -o bin/main
-structures:
-    $(CC) $(FLAGS) structures.c -o bin/structures
