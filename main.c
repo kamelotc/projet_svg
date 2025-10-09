@@ -33,6 +33,7 @@ int main(void) {
     printf("R = Rectangle");
     printf("\nC = Cercle");
     printf("\nE = Ellipse");
+    printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
         fputs("ERROR: Invalid input.\n", stderr);
