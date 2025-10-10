@@ -11,7 +11,7 @@
  * @param color La couleur de la forme.
  * @deprecated Fonction anciennement utilisée pour générer toutes les formes. Remplacée par des fonctions spécialisées pour pouvoir ajouter des paramètres uniques à certaines formes.
  */
-void generateShape(FILE *svg, const char shape, const int width, const int height, char color[6]) {
+void generateShape(FILE *svg, const char shape, const    int width, const int height, char color[6]) {
     //On donne une couleur par défaut (rouge.)
     if (color == NULL)
         color = "ff0000";
@@ -82,6 +82,58 @@ int generateCircle(FILE *svg, char color[6]) {
     return EXIT_SUCCESS;
 }
 
+/**
+ * Génère une ligne droite prenant des coordonnées comme paramètres pour placer les points.
+ * @param svg Le fichier SVG à modifier.
+ * @param color La couleur de la ligne.
+ * @return 1 si une erreur s'est produite, 0 sinon.
+ */
+int generateLine(FILE *svg, char color[6]) {
+    if (color == NULL)
+        color = "ff0000";
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0;
+    printf("Choisissez la largeur de la vue : ");
+    if (scanf("%d",&viewWidth) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    printf("Choisissez la hauteur de la vue : ");
+    if (scanf("%d",&viewHeight) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    printf("Choisissez les coordonnees X du premier point : ");
+    if (scanf("%d",&x1) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    printf("Choisissez les coordonnees Y du premier point : ");
+    if (scanf("%d",&y1) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    printf("Choisissez les coordonnees X du second point : ");
+    if (scanf("%d",&x2) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    printf("Choisissez les coordonnees Y du second point : ");
+    if (scanf("%d",&y2) != 1) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+
+    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
+    fprintf(svg, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"#%s\"/>", x1, y1, x2, y2, color);
+    fprintf(svg, "\n</svg>");
+    return EXIT_SUCCESS;
+}
+
 int main(void) {
     char shape;
     int exit = EXIT_SUCCESS;
@@ -91,6 +143,7 @@ int main(void) {
     printf("R = Rectangle");
     printf("\nC = Cercle");
     printf("\nE = Ellipse");
+    printf("\nL = Ligne");
     printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
@@ -101,7 +154,7 @@ int main(void) {
     //On met le caractère en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
     //Puis, on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
-    if (strpbrk(&shape, "CRE") == 0) {
+    if (strpbrk(&shape, "RCEL") == 0) {
         fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
         return EXIT_FAILURE;
     }
@@ -113,6 +166,8 @@ int main(void) {
         exit = generateClassicShape(svg, shape, NULL);
     } else if (shape == 'C') {
         exit = generateCircle(svg, NULL);
+    } else if (shape == 'L') {
+        exit = generateLine(svg, NULL);
     }
     return exit;
 }
