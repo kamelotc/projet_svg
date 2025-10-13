@@ -163,7 +163,7 @@ int main(void) {
     printf("\nC = Cercle");
     printf("\nE = Ellipse");
     printf("\nL = Ligne");
-    printf("\nS = Suite de Lignes");
+    printf("\nS = Suite de Lignes - INCOMPLET");
     printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
@@ -184,12 +184,11 @@ int main(void) {
     const FILE *svg = fopen("resultat.svg", "w");
     if (strpbrk(&shape, "RE") != 0) {
         exit = generateClassicShape(svg, shape, NULL);
-    } else if (shape == 'C') {
-        exit = generateCircle(svg, NULL);
-    } else if (shape == 'L') {
-        exit = generateLine(svg, NULL);
-    } else if (shape == 'S') {
-        exit = generatePolyline(svg, NULL);
+    } else switch (shape) {
+        case 'C': generateCircle(svg, NULL); break;
+        case 'L': generateLine(svg, NULL); break;
+        case 'S': generatePolyline(svg, NULL); break;
+        default: fputs("ERROR: Invalid input.\n", stderr);;
     }
     return exit;
 }
