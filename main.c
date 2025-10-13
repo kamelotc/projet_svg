@@ -149,6 +149,7 @@ int generatePolyShape(FILE *svg, char shape, char color[6]) {
     switch (shape) {
         case 'S': fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color); break;
         case 'P': fprintf(svg, "<polygon fill=\"none\" stroke=\"#%s\" points=\"", color); break;
+        default: fputs("ERROR: Attempted to generate polyshape but could not be identified?", stderr); return EXIT_FAILURE;
     }
     fprintf(svg, "%d,%d ", x1, y1);
     for (int i = 0; i < lines; i++) {
