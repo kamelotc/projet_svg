@@ -49,8 +49,8 @@ int generateClassicShape(FILE *svg, const char shape, char color[6]) {
     int width = 0;
     int height = 0;
     //On demande la largeur et la hauteur de la forme qui doivent être supérieures à 0.
-    askNumber("Choisissez la largeur (au-dessus de 0) : ", &width);
-    askNumber("\nChoisissez la hauteur (au-dessus de 0) : ", &height);
+    askNumber("Choisissez la largeur (au-dessus de 0) :", &width);
+    askNumber("\nChoisissez la hauteur (au-dessus de 0) :", &height);
 
     if (width <= 0 || height <= 0) {
         fputs("ERROR: Largeur et/ou hauteur invalide(s).\n", stderr);
@@ -78,7 +78,7 @@ int generateCircle(FILE *svg, char color[6]) {
         color = "ff0000";
     int radius = 0;
     //On demande le rayon du cercle qui doit être supérieur à 0.
-    askNumber("Choisissez le rayon (au-dessus de 0) : ", &radius);
+    askNumber("Choisissez le rayon (au-dessus de 0) :", &radius);
     if (radius <= 0) {
         fputs("ERROR: Rayon invalide.", stderr);
         return EXIT_FAILURE;
@@ -100,16 +100,16 @@ int generateLine(FILE *svg, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0;
-    askNumber("Choisissez la largeur de la vue : ", &viewWidth);
-    askNumber("Choisissez la hauteur de la vue : ", &viewHeight);
+    askNumber("Choisissez la largeur de la vue :", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue :", &viewHeight);
     if (viewWidth <= 0 || viewHeight <= 0) {
         fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
-    askNumber("Choisissez les coordonnees X du premier point : ", &x1);
-    askNumber("Choisissez les coordonnees Y du premier point : ", &y1);
-    askNumber("Choisissez les coordonnees X du second point : ", &x2);
-    askNumber("Choisissez les coordonnees Y du second point : ", &y2);
+    askNumber("Choisissez les coordonnees X du premier point :", &x1);
+    askNumber("Choisissez les coordonnees Y du premier point :", &y1);
+    askNumber("Choisissez les coordonnees X du second point :", &x2);
+    askNumber("Choisissez les coordonnees Y du second point :", &y2);
 
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
     fprintf(svg, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"#%s\"/>", x1, y1, x2, y2, color);
@@ -126,22 +126,22 @@ int generatePolyShape(FILE *svg, char shape, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
-    askNumber("Choisissez la largeur de la vue : ", &viewWidth);
-    askNumber("Choisissez la hauteur de la vue : ", &viewHeight);
-    askNumber("Choisissez le nombre de lignes : ", &lines);
+    askNumber("Choisissez la largeur de la vue :", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue :", &viewHeight);
+    askNumber("Choisissez le nombre de lignes :", &lines);
     if (viewWidth <= 0 || viewHeight <= 0 || lines <= 0) {
         fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
     int xPoints[lines+1] = {};
     int yPoints[lines+1] = {};
-    askNumber("Choisissez les coordonnees X du premier point : ", &x1);
-    askNumber("Choisissez les coordonnees Y du premier point : ", &y1);
+    askNumber("Choisissez les coordonnees X du premier point :", &x1);
+    askNumber("Choisissez les coordonnees Y du premier point :", &y1);
     for (int i = 0; i < lines; i++) {
         int x2 = 0, y2 = 0;
         printf("%d/%d\n", i, lines);
-        askNumber("Choisissez les coordonnees X du prochain point : ", &x2);
-        askNumber("Choisissez les coordonnees Y du prochain point : ", &y2);
+        askNumber("Choisissez les coordonnees X du prochain point :", &x2);
+        askNumber("Choisissez les coordonnees Y du prochain point :", &y2);
         xPoints[i] = x2;
         yPoints[i] = y2;
     }
