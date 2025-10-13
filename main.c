@@ -185,10 +185,10 @@ int main(void) {
     if (strpbrk(&shape, "RE") != 0) {
         exit = generateClassicShape(svg, shape, NULL);
     } else switch (shape) {
-        case 'C': generateCircle(svg, NULL); break;
-        case 'L': generateLine(svg, NULL); break;
-        case 'S': generatePolyline(svg, NULL); break;
-        default: fputs("ERROR: Invalid input.\n", stderr);;
+        case 'C': exit = generateCircle(svg, NULL); break;
+        case 'L': exit = generateLine(svg, NULL); break;
+        case 'S': exit = generatePolyline(svg, NULL); break;
+        default: fputs("ERROR: Invalid input.\n", stderr); exit = EXIT_FAILURE; break;
     }
     return exit;
 }
