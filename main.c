@@ -11,7 +11,7 @@
  * @param color La couleur de la forme.
  * @deprecated Fonction anciennement utilisée pour générer toutes les formes. Remplacée par des fonctions spécialisées pour pouvoir ajouter des paramètres uniques à certaines formes.
  */
-void generateShape(FILE *svg, const char shape, const    int width, const int height, char color[6]) {
+void generateShape(FILE *svg, const char shape, const int width, const int height, char color[6]) {
     //On donne une couleur par défaut (rouge.)
     if (color == NULL)
         color = "ff0000";
