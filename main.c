@@ -124,9 +124,7 @@ int generateLine(FILE *svg, char color[6]) {
 int generatePolyline(FILE *svg, char color[6]) {
     if (color == NULL)
         color = "ff0000";
-    int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
-    int xPoints[] = {};
-    int yPoints[] = {};
+    int x1 = 0, y1 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
     askNumber("Choisissez la largeur de la vue : ", &viewWidth);
     askNumber("Choisissez la hauteur de la vue : ", &viewHeight);
     askNumber("Choisissez le nombre de lignes : ", &lines);
@@ -134,9 +132,12 @@ int generatePolyline(FILE *svg, char color[6]) {
         fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
+    int xPoints[lines+1] = {};
+    int yPoints[lines+1] = {};
     askNumber("Choisissez les coordonnees X du premier point : ", &x1);
     askNumber("Choisissez les coordonnees Y du premier point : ", &y1);
     for (int i = 0; i < lines; i++) {
+        int x2 = 0, y2 = 0;
         printf("%d/%d\n", i, lines);
         askNumber("Choisissez les coordonnees X du prochain point : ", &x2);
         askNumber("Choisissez les coordonnees Y du prochain point : ", &y2); //todo: trouver pourquoi ça affecte "lines"
@@ -146,6 +147,7 @@ int generatePolyline(FILE *svg, char color[6]) {
 
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
     fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color);
+    fprintf(svg, "%d,%d ", x1, y1);
     for (int i = 0; i < lines; i++) {
         fprintf(svg, "%d,%d ", xPoints[i], yPoints[i]);
     }
@@ -163,7 +165,7 @@ int main(void) {
     printf("\nC = Cercle");
     printf("\nE = Ellipse");
     printf("\nL = Ligne");
-    printf("\nS = Suite de Lignes - INCOMPLET");
+    printf("\nS = Suite de Lignes");
     printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
