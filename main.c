@@ -116,12 +116,12 @@ int generateLine(FILE *svg, char color[6]) {
     return EXIT_SUCCESS;
 }
 
-/** Génère des lignes prenant des coordonnées comme paramètres pour placer les points.
+/** Génère des formes prenant des coordonnées comme paramètres pour placer la quantité de points demandée.
 * @param svg Le fichier SVG à modifier.
 * @param color La couleur de la ligne.
 * @return 1 si une erreur s'est produite, 0 sinon.
 */
-int generatePolyline(FILE *svg, char color[6]) {
+int generatePolyShape(FILE *svg, char shape, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
@@ -140,13 +140,16 @@ int generatePolyline(FILE *svg, char color[6]) {
         int x2 = 0, y2 = 0;
         printf("%d/%d\n", i, lines);
         askNumber("Choisissez les coordonnees X du prochain point : ", &x2);
-        askNumber("Choisissez les coordonnees Y du prochain point : ", &y2); //todo: trouver pourquoi ça affecte "lines"
+        askNumber("Choisissez les coordonnees Y du prochain point : ", &y2);
         xPoints[i] = x2;
         yPoints[i] = y2;
     }
 
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
-    fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color);
+    switch (shape) {
+        case 'S': fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color); break;
+        case 'P': fprintf(svg, "<polygon fill=\"none\" stroke=\"#%s\" points=\"", color); break;
+    }
     fprintf(svg, "%d,%d ", x1, y1);
     for (int i = 0; i < lines; i++) {
         fprintf(svg, "%d,%d ", xPoints[i], yPoints[i]);
@@ -166,6 +169,7 @@ int main(void) {
     printf("\nE = Ellipse");
     printf("\nL = Ligne");
     printf("\nS = Suite de Lignes");
+    printf("\nP = Polygone");
     printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
@@ -176,7 +180,7 @@ int main(void) {
     //On met le caractère en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
     //Puis, on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
-    if (strpbrk(&shape, "RCELS") == 0) {
+    if (strpbrk(&shape, "RCELSP") == 0) {
         fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
         return EXIT_FAILURE;
     }
@@ -184,12 +188,11 @@ int main(void) {
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
     //Puis, on écrit les infos SVG dedans.
     const FILE *svg = fopen("resultat.svg", "w");
-    if (strpbrk(&shape, "RE") != 0) {
-        exit = generateClassicShape(svg, shape, NULL);
-    } else switch (shape) {
+    switch (shape) {
+        case 'R': case 'E': exit = generateClassicShape(svg, shape, NULL); break;
         case 'C': exit = generateCircle(svg, NULL); break;
         case 'L': exit = generateLine(svg, NULL); break;
-        case 'S': exit = generatePolyline(svg, NULL); break;
+        case 'S': case 'P': exit = generatePolyShape(svg, shape, NULL); break;
         default: fputs("ERROR: Invalid input.\n", stderr); exit = EXIT_FAILURE; break;
     }
     return exit;
