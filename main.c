@@ -116,6 +116,43 @@ int generateLine(FILE *svg, char color[6]) {
     return EXIT_SUCCESS;
 }
 
+/** Génère des lignes prenant des coordonnées comme paramètres pour placer les points.
+* @param svg Le fichier SVG à modifier.
+* @param color La couleur de la ligne.
+* @return 1 si une erreur s'est produite, 0 sinon.
+*/
+int generatePolyline(FILE *svg, char color[6]) {
+    if (color == NULL)
+        color = "ff0000";
+    int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
+    int xPoints[] = {};
+    int yPoints[] = {};
+    askNumber("Choisissez la largeur de la vue : ", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue : ", &viewHeight);
+    askNumber("Choisissez le nombre de lignes : ", &lines);
+    if (viewWidth <= 0 || viewHeight <= 0 || lines <= 0) {
+        fputs("ERROR: Invalid input.\n", stderr);
+        return EXIT_FAILURE;
+    }
+    askNumber("Choisissez les coordonnees X du premier point : ", &x1);
+    askNumber("Choisissez les coordonnees Y du premier point : ", &y1);
+    for (int i = 0; i < lines; i++) {
+        printf("%d/%d\n", i, lines);
+        askNumber("Choisissez les coordonnees X du prochain point : ", &x2);
+        askNumber("Choisissez les coordonnees Y du prochain point : ", &y2); //todo: trouver pourquoi ça affecte "lines"
+        xPoints[i] = x2;
+        yPoints[i] = y2;
+    }
+
+    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
+    fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color);
+    for (int i = 0; i < lines; i++) {
+        fprintf(svg, "%d,%d ", xPoints[i], yPoints[i]);
+    }
+    fprintf(svg, "\"/>\n</svg>");
+    return EXIT_SUCCESS;
+}
+
 int main(void) {
     char shape;
     int exit = EXIT_SUCCESS;
@@ -126,6 +163,7 @@ int main(void) {
     printf("\nC = Cercle");
     printf("\nE = Ellipse");
     printf("\nL = Ligne");
+    printf("\nS = Suite de Lignes");
     printf("\nConseil : Il est possible de faire un carre en utilisant un rectangle!");
     printf("\nChoisissez la forme : ");
     if (scanf("%c",&shape) != 1) {
@@ -136,7 +174,7 @@ int main(void) {
     //On met le caractère en majuscule pour ne pas avoir de problèmes avec les caractères minuscules.
     //Puis, on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
-    if (strpbrk(&shape, "RCEL") == 0) {
+    if (strpbrk(&shape, "RCELS") == 0) {
         fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
         return EXIT_FAILURE;
     }
@@ -150,6 +188,8 @@ int main(void) {
         exit = generateCircle(svg, NULL);
     } else if (shape == 'L') {
         exit = generateLine(svg, NULL);
+    } else if (shape == 'S') {
+        exit = generatePolyline(svg, NULL);
     }
     return exit;
 }
