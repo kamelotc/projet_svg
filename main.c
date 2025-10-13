@@ -25,6 +25,17 @@ void generateShape(FILE *svg, const char shape, const    int width, const int he
 }
 
 /**
+ * Demande un nombre à l'utilisateur puis place la valeur dans un pointeur. Le programme s'arrêtera en attendant une réponse.
+ * @param message Le message à afficher à l'utilisateur lorsqu'on demande un nombre.
+ * @param number Le pointeur qui contiendra la valeur entrée par l'utilisateur.
+ */
+void askNumber(char message[], int *number) {
+    printf(message);
+    if (scanf("%d",number) != 1)
+        fputs("ERROR: Invalid input.\n", stderr);
+}
+
+/**
 * Génère une forme "classique", c'est-à-dire une forme ne prenant qu'une largeur et une hauteur pour la créer. Comprend les rectangles et les ellipses.
  * @param svg Le fichier SVG à modifier.
  * @param shape Le caractère représentant la forme pour l'identifier, habituellement sa première lettre.
@@ -36,19 +47,15 @@ int generateClassicShape(FILE *svg, const char shape, char color[6]) {
         color = "ff0000";
     int width = 0;
     int height = 0;
-    //On demande la largeur de la forme qui doit être supérieure à 0.
-    printf("Choisissez la largeur (au-dessus de 0) : ");
-    if (scanf("%d",&width) != 1 || width <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
+    //On demande la largeur et la hauteur de la forme qui doivent être supérieures à 0.
+    askNumber("Choisissez la largeur (au-dessus de 0) : ", &width);
+    askNumber("\nChoisissez la hauteur (au-dessus de 0) : ", &height);
+
+    if (width <= 0 || height <= 0) {
+        fputs("ERROR: Largeur et/ou hauteur invalide(s).\n", stderr);
         return EXIT_FAILURE;
     }
 
-    //On demande la hauteur de la forme qui doit être supérieure à 0.
-    printf("\nChoisissez la hauteur (au-dessus de 0) : ");
-    if (scanf("%d",&height) != 1 || height <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", width, height, width, height);
     switch (shape) {
         case 'E': fprintf(svg, "<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, height/2, color); break;
@@ -70,9 +77,9 @@ int generateCircle(FILE *svg, char color[6]) {
         color = "ff0000";
     int radius = 0;
     //On demande le rayon du cercle qui doit être supérieur à 0.
-    printf("Choisissez le rayon (au-dessus de 0) : ");
-    if (scanf("%d",&radius) != 1 || radius <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
+    askNumber("Choisissez le rayon (au-dessus de 0) : ", &radius);
+    if (radius <= 0) {
+        fputs("ERROR: Rayon invalide.", stderr);
         return EXIT_FAILURE;
     }
 
@@ -92,41 +99,16 @@ int generateLine(FILE *svg, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0;
-    printf("Choisissez la largeur de la vue : ");
-    if (scanf("%d",&viewWidth) != 1) {
+    askNumber("Choisissez la largeur de la vue : ", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue : ", &viewHeight);
+    if (viewWidth <= 0 || viewHeight <= 0) {
         fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
     }
-
-    printf("Choisissez la hauteur de la vue : ");
-    if (scanf("%d",&viewHeight) != 1) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
-    printf("Choisissez les coordonnees X du premier point : ");
-    if (scanf("%d",&x1) != 1) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
-    printf("Choisissez les coordonnees Y du premier point : ");
-    if (scanf("%d",&y1) != 1) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
-    printf("Choisissez les coordonnees X du second point : ");
-    if (scanf("%d",&x2) != 1) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
-
-    printf("Choisissez les coordonnees Y du second point : ");
-    if (scanf("%d",&y2) != 1) {
-        fputs("ERROR: Invalid input.\n", stderr);
-        return EXIT_FAILURE;
-    }
+    askNumber("Choisissez les coordonnees X du premier point : ", &x1);
+    askNumber("Choisissez les coordonnees Y du premier point : ", &y1);
+    askNumber("Choisissez les coordonnees X du second point : ", &x2);
+    askNumber("Choisissez les coordonnees Y du second point : ", &y2);
 
     fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 %d %d\">\n    ", viewWidth, viewHeight, viewWidth, viewHeight);
     fprintf(svg, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"#%s\"/>", x1, y1, x2, y2, color);
