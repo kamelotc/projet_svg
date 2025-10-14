@@ -66,7 +66,7 @@ int main(void) {
     rgb[2] = color;
 
     if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255 || rgb[2] < 0 || rgb[2] > 255) {
-        fputs("ERREUR : Une ou plusiers valeurs RGB est/sont invalide(s). Le nombre doit etre entre 0 et 255.\n", stderr);
+        fputs("ERREUR : Une ou plusieurs valeurs RGB est/sont invalide(s). Le nombre doit etre entre 0 et 255.\n", stderr);
         return EXIT_FAILURE;
     }
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
