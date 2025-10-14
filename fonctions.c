@@ -9,7 +9,7 @@
 void ask_number(char message[], int *number) {
     printf(message);
     if (scanf("%d",number) != 1)
-        fputs("ERROR: Invalid input.\n", stderr);
+        fputs("ERREUR : Caractere invalide.\n", stderr);
 }
 
 /**
@@ -29,7 +29,7 @@ int create_classic_shape(FILE *svg, char shape, char color[6]) {
     ask_number("\nChoisissez la hauteur (au-dessus de 0) :", &height);
 
     if (width <= 0 || height <= 0) {
-        fputs("ERROR: Largeur et/ou hauteur invalide(s).\n", stderr);
+        fputs("ERREUR : Largeur et/ou hauteur invalide(s).\n", stderr);
         return EXIT_FAILURE;
     }
 
@@ -37,7 +37,7 @@ int create_classic_shape(FILE *svg, char shape, char color[6]) {
     switch (shape) {
         case 'E': fprintf(svg, "<ellipse cx=\"%d\" cy=\"%d\" rx=\"%d\" ry=\"%d\" fill=\"#%s\"/>", width/2, height/2, width/2, height/2, color); break;
         case 'R': fprintf(svg, "<rect width=\"%d\" height=\"%d\" x=\"0\" fill=\"#%s\"/>", width, height, color); break;
-        default: fputs("ERROR: Attempted to generate classic shape but could not be identified?", stderr); return EXIT_FAILURE;
+        default: fputs("ERREUR : Tentative de faire une forme classique mais n'a pas pu etre reconnue ?", stderr); return EXIT_FAILURE;
     }
     fprintf(svg, "\n</svg>");
     return EXIT_SUCCESS;
@@ -56,7 +56,7 @@ int create_circle(FILE *svg, char color[6]) {
     //On demande le rayon du cercle qui doit être supérieur à 0.
     ask_number("Choisissez le rayon (au-dessus de 0) :", &radius);
     if (radius <= 0) {
-        fputs("ERROR: Rayon invalide.", stderr);
+        fputs("ERREUR : Rayon invalide.", stderr);
         return EXIT_FAILURE;
     }
 
@@ -79,7 +79,7 @@ int create_line(FILE *svg, char color[6]) {
     ask_number("Choisissez la largeur de la vue (au-dessus de 0) :", &viewWidth);
     ask_number("Choisissez la hauteur de la vue (au-dessus de 0) :", &viewHeight);
     if (viewWidth <= 0 || viewHeight <= 0) {
-        fputs("ERROR: Largeur .\n", stderr);
+        fputs("ERREUR : Largeur et/ou hauteur invalide(s) .\n", stderr);
         return EXIT_FAILURE;
     }
     ask_number("Choisissez les coordonnees X du premier point :", &x1);
@@ -107,7 +107,7 @@ int create_polyshape(FILE *svg, const char shape, char color[6]) {
     ask_number("Choisissez la hauteur de la vue (au-dessus de 0) :", &viewHeight);
     ask_number("Choisissez le nombre de lignes :(au-dessus de 0) :", &lines);
     if (viewWidth <= 0 || viewHeight <= 0 || lines <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
+        fputs("ERREUR : Largeur et/ou hauteur et/ou nombre de lignes invalide(s).\n", stderr);
         return EXIT_FAILURE;
     }
     int xPoints[lines+1] = {};
@@ -127,7 +127,7 @@ int create_polyshape(FILE *svg, const char shape, char color[6]) {
     switch (shape) {
         case 'S': fprintf(svg, "<polyline fill=\"none\" stroke=\"#%s\" points=\"", color); break;
         case 'P': fprintf(svg, "<polygon fill=\"none\" stroke=\"#%s\" points=\"", color); break;
-        default: fputs("ERROR: Attempted to generate polyshape but could not be identified?", stderr); return EXIT_FAILURE;
+        default: fputs("ERREUR : Tentative de faire une polyshape mais n'a pas pu etre reconnue ?", stderr); return EXIT_FAILURE;
     }
     fprintf(svg, "%d,%d ", x1, y1);
     for (int i = 0; i < lines; i++) {

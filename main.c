@@ -11,7 +11,7 @@
  * @param width La largeur de la forme.
  * @param height La hauteur de la forme.
  * @param color La couleur de la forme.
- * @deprecated Fonction anciennement utilisée pour générer toutes les formes. Remplacée par des fonctions spécialisées pour pouvoir ajouter des paramètres uniques à certaines formes.
+ * @deprecated Fonction anciennement utilisée pour générer toutes les formes. Remplacée par des fonctions spécialisées dans "fonctions.c" pour pouvoir ajouter des paramètres uniques à certaines formes.
  */
 void generateShape(FILE *svg, const char shape, const int width, const int height, char color[6]) {
     //On donne une couleur par défaut (rouge.)
@@ -49,7 +49,7 @@ int main(void) {
     //Puis, on vérifie si c'est l'un des caractères autorisés, sinon on renvoie une erreur.
     shape = toupper(shape);
     if (strpbrk(&shape, "RCELSP") == 0) {
-        fputs("ERROR: Invalid input. Must be one of the characters in the given list.\n", stderr);
+        fputs("ERREUR : Caractere invalide. Il doit etre l'un des caracteres affiches dans la liste.\n", stderr);
         return EXIT_FAILURE;
     }
 
@@ -61,7 +61,7 @@ int main(void) {
         case 'C': exit = create_circle(svg, NULL); break;
         case 'L': exit = create_line(svg, NULL); break;
         case 'S': case 'P': exit = create_polyshape(svg, shape, NULL); break;
-        default: fputs("ERROR: Invalid input.\n", stderr); exit = EXIT_FAILURE; break;
+        default: fputs("ERREUR : Forme invalide.\n", stderr); exit = EXIT_FAILURE; break;
     }
     return exit;
 }
