@@ -100,10 +100,10 @@ int generateLine(FILE *svg, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0, viewWidth = 0, viewHeight = 0;
-    askNumber("Choisissez la largeur de la vue :", &viewWidth);
-    askNumber("Choisissez la hauteur de la vue :", &viewHeight);
+    askNumber("Choisissez la largeur de la vue (au-dessus de 0) :", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue (au-dessus de 0) :", &viewHeight);
     if (viewWidth <= 0 || viewHeight <= 0) {
-        fputs("ERROR: Invalid input.\n", stderr);
+        fputs("ERROR: Largeur .\n", stderr);
         return EXIT_FAILURE;
     }
     askNumber("Choisissez les coordonnees X du premier point :", &x1);
@@ -126,9 +126,9 @@ int generatePolyShape(FILE *svg, char shape, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
-    askNumber("Choisissez la largeur de la vue :", &viewWidth);
-    askNumber("Choisissez la hauteur de la vue :", &viewHeight);
-    askNumber("Choisissez le nombre de lignes :", &lines);
+    askNumber("Choisissez la largeur de la vue (au-dessus de 0) :", &viewWidth);
+    askNumber("Choisissez la hauteur de la vue (au-dessus de 0) :", &viewHeight);
+    askNumber("Choisissez le nombre de lignes :(au-dessus de 0) :", &lines);
     if (viewWidth <= 0 || viewHeight <= 0 || lines <= 0) {
         fputs("ERROR: Invalid input.\n", stderr);
         return EXIT_FAILURE;
