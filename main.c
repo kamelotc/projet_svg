@@ -119,10 +119,11 @@ int generateLine(FILE *svg, char color[6]) {
 
 /** Génère des formes prenant des coordonnées comme paramètres pour placer la quantité de points demandée.
 * @param svg Le fichier SVG à modifier.
+* @param shape La forme à créer, représentée par un seul caractère.
 * @param color La couleur de la ligne.
 * @return 1 si une erreur s'est produite, 0 sinon.
 */
-int generatePolyShape(FILE *svg, char shape, char color[6]) {
+int generatePolyShape(FILE *svg, const char shape, char color[6]) {
     if (color == NULL)
         color = "ff0000";
     int x1 = 0, y1 = 0, viewWidth = 0, viewHeight = 0, lines = 1;
@@ -189,7 +190,7 @@ int main(void) {
 
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
     //Puis, on écrit les infos SVG dedans.
-    const FILE *svg = fopen("resultat.svg", "w");
+    FILE *svg = fopen("resultat.svg", "w");
     switch (shape) {
         case 'R': case 'E': exit = generateClassicShape(svg, shape, NULL); break;
         case 'C': exit = generateCircle(svg, NULL); break;
