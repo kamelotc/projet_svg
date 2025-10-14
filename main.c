@@ -29,6 +29,8 @@ void generateShape(FILE *svg, const char shape, const int width, const int heigh
 int main(void) {
     char shape;
     int exit = EXIT_SUCCESS;
+    int rgb[3] = {};
+    int color;
 
     //On demande la forme. On l'identifie à l'aide d'un seul caractère.
     //(Habituellement la première lettre.)
@@ -53,14 +55,28 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
+    if (ask_number("Choisissez la valeur R (Rouge) de la couleur RGB (0-255) :", &color) == EXIT_FAILURE)
+        return EXIT_FAILURE;
+    rgb[0] = color;
+    if (ask_number("Choisissez la valeur G (Vert) de la couleur RGB (0-255) :", &color) == EXIT_FAILURE)
+        return EXIT_FAILURE;
+    rgb[1] = color;
+    if (ask_number("Choisissez la valeur B (Bleu) de la couleur RGB (0-255) :", &color) == EXIT_FAILURE)
+        return EXIT_FAILURE;
+    rgb[2] = color;
+
+    if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255 || rgb[2] < 0 || rgb[2] > 255) {
+        fputs("ERREUR : Une ou plusiers valeurs RGB est/sont invalide(s). Le nombre doit etre entre 0 et 255.\n", stderr);
+        return EXIT_FAILURE;
+    }
     //On ouvre (crée s'il n'existe pas) un fichier "resultat.svg" en mode écriture.
     //Puis, on écrit les infos SVG dedans.
     FILE *svg = fopen("resultat.svg", "w");
     switch (shape) {
-        case 'R': case 'E': exit = create_classic_shape(svg, shape, NULL); break;
-        case 'C': exit = create_circle(svg, NULL); break;
-        case 'L': exit = create_line(svg, NULL); break;
-        case 'S': case 'P': exit = create_polyshape(svg, shape, NULL); break;
+        case 'R': case 'E': exit = create_classic_shape(svg, shape, rgb); break;
+        case 'C': exit = create_circle(svg, rgb); break;
+        case 'L': exit = create_line(svg, rgb); break;
+        case 'S': case 'P': exit = create_polyshape(svg, shape, rgb); break;
         default: fputs("ERREUR : Forme invalide.\n", stderr); exit = EXIT_FAILURE; break;
     }
     return exit;
