@@ -56,7 +56,15 @@ int main(void)
         case 1:
             menu_circle();
             break;
-
+        case 2:
+            menu_ellipse();
+            break;
+        case 3:
+            menu_square();
+            break;
+        case 4:
+            menu_rectangle();
+        
         default:
             break;
     }
