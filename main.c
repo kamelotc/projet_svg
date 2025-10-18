@@ -64,6 +64,10 @@ int main(void)
             break;
         case 4:
             menu_rectangle();
+            break;
+        case 5:
+            menu_line();
+            break;
         
         default:
             break;

@@ -1,5 +1,5 @@
-#ifndef polygon
-#define polygon
+#ifndef POLYGON_H
+#define POLYGON_H
 
 
 

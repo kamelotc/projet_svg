@@ -3,7 +3,6 @@ FLAGS := -std=c99 -Wall -Werror -Wextra
 
 
 build:
-	$(CC) $(FLAGS) -c structures.c
 	$(CC) $(FLAGS) -c main.c
 	$(CC) $(FLAGS) -c 01_Circle/circle.c
 	$(CC) $(FLAGS) -c 02_Ellipse/ellipse.c
@@ -14,6 +13,6 @@ build:
 	$(CC) $(FLAGS) -c 07_Polygon/polygon.c
 	$(CC) $(FLAGS) -c 08_Paths/paths.c
 	$(CC) $(FLAGS) -c 09_Group/group.c
-	$(CC) $(FLAGS) structures.o main.o circle.o ellipse.o square.o rectangle.o line.o sequence.o polygon.o paths.o group.o -o main
+	$(CC) $(FLAGS) main.o circle.o ellipse.o square.o rectangle.o line.o sequence.o polygon.o paths.o group.o -o main
 	
 

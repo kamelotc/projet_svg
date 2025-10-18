@@ -5,7 +5,7 @@
 
 void menu_ellipse(void)
 {
-
+    //reserve memory space for the form and then free it up
     ellipse_t *ellipse = malloc(sizeof(ellipse));
 
     if (ellipse == NULL)
@@ -25,7 +25,7 @@ void menu_ellipse(void)
 
 
 
-    
+    //x and y allows you to place the SVG shape in the space
     printf("\nYou choose Ellipse\n");
     printf("Choose your size:\n");
     printf("x:");
@@ -53,9 +53,12 @@ void menu_ellipse(void)
             case 1:
                 printf("\n01-Red\n02-Green\n03-Blue\nYour line color: ");
                 scanf(" %d", &linecolor);
-                if (linecolor == 1 || linecolor == 2 || linecolor == 3) {
+                if (linecolor == 1 || linecolor == 2 || linecolor == 3) 
+                {
                 printf("Defined line color\n");
-                } else {
+                } 
+                else 
+                {
                 printf("Error\n");
                 }
                 break;
@@ -63,9 +66,12 @@ void menu_ellipse(void)
             case 2:
                 printf("\n01-Red\n02-Green\n03-Blue\nYour background color: ");
                 scanf(" %d", &backcolor);
-                if (backcolor == 1 || backcolor == 2 || backcolor == 3) {
+                if (backcolor == 1 || backcolor == 2 || backcolor == 3) 
+                {
                 printf("Defined background color\n");
-                } else {
+                } 
+                else 
+                {
                 printf("Error\n");
                 }
                 break;
