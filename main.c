@@ -17,6 +17,15 @@ int main(void)
     int menu;
     int choose;
     
+    union type
+    {
+        void *circle;
+        void *ellipse;
+        void *square;
+        void *rectangle;
+        void *line;
+    };
+    
     printf("\n----- MENU SVG -----\n\n");
     printf("01-Edit an SVG\n"
            "02-Remove an SVG\n"
