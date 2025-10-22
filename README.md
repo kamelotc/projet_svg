@@ -35,4 +35,3 @@ Les problèmes que j’ai rencontrés :
 J’avais deux structures.
 Mon do while faisait une boucle infinie.
 
-

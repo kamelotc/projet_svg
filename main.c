@@ -17,11 +17,19 @@ int main(void)
     int menu;
     int choose;
     
+    union type
+    {
+        void *circle;
+        void *ellipse;
+        void *square;
+        void *rectangle;
+        void *line;
+    };
+    
     printf("\n----- MENU SVG -----\n\n");
-    printf("01-Edit an SVG\n"
+    printf("01-Create SVG\n"
            "02-Remove an SVG\n"
-           "03-Export an SVG\n"
-           "04-Import an SVG\n");
+           "03-Import an SVG\n");
     printf("Enter a number: ");
     scanf("%d",&menu);
 
@@ -38,12 +46,8 @@ int main(void)
                    "07-Polygon \n"
                    "08-Paths (Trajectories) \n"
                    "09-Group \n\n");
-            printf("Enter a number: ");
+            printf("Enter a number: "); 
             break;
-        
-        case 2:
-            break;
-
 
         default:
             break;

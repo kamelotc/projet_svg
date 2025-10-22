@@ -5,7 +5,7 @@
 void menu_circle(void)
 {
     //reserve memory space for the form and then free it up
-    circle_t *circle = malloc(sizeof(circle));
+    circle_t *circle = malloc(sizeof(circle_t));
 
     if (circle == NULL)
     {
@@ -13,22 +13,23 @@ void menu_circle(void)
         return;
     }
     
-    int x;
-    int y;
+    int cx;
+    int cy;
     int r;
     int choose_in_menu;
-    int Angle;
-    int linecolor;
-    int backcolor;
+    int Angle = 0;
+    int linecolor = 0;
+    int backcolor =0;
+ 
 
 
     //x and y allows you to place the SVG shape in the space
     printf("\nYou choose Circle\n");
     printf("Choose your size:\n");
-    printf("x:");
-    scanf(" %d", &x);
-    printf("y:");
-    scanf(" %d", &y);
+    printf("cx:");
+    scanf(" %d", &cx);
+    printf("cy:");
+    scanf(" %d", &cy);
     printf("r:");
     scanf(" %d", &r);
     
@@ -39,7 +40,8 @@ void menu_circle(void)
                "03-Move elements along the X and Y axis \n"
                "04-Rotate elements by an angle (integer) \n"
                "05-Flip elements along the X or Y axis \n"
-               "06-Exit menu\n");
+               "06-Export an svg \n"
+               "00-Exit menu\n");
         printf("\nEnter a number: ");
         scanf(" %d", &choose_in_menu);
     
@@ -48,57 +50,97 @@ void menu_circle(void)
             case 1:
                 printf("\n01-Red\n02-Green\n03-Blue\nYour line color: ");
                 scanf(" %d", &linecolor);
-                if (linecolor == 1 || linecolor == 2 || linecolor == 3) 
+                if (linecolor >= 1 && linecolor <= 3) 
                 {
-                printf("Defined line color\n");
+                printf("======================\n");
+                printf("  Defined line color\n");
+                printf("======================\n");
                 } 
                 else 
                 {
-                printf("Error\n");
+                printf("\n==========\n");
+                printf("  Error\n");
+                printf("==========\n");
                 }
                 break;
         
             case 2:
                 printf("\n01-Red\n02-Green\n03-Blue\nYour background color: ");
                 scanf(" %d", &backcolor);
-                if (backcolor == 1 || backcolor == 2 || backcolor == 3) 
+                if (backcolor >= 1 && backcolor <= 3) 
                 {
-                printf("Defined background color\n");
+                printf("===========================\n");
+                printf("  Defined background color\n");
+                printf("===========================\n");
                 } 
                 else 
                 {
-                printf("Error\n");
+                printf("\n==========\n");
+                printf("  Error\n");
+                printf("==========\n");
                 }
                 break;
             case 3:
-                printf("\nx: ");
-                scanf(" %d", &x);
-                printf("y: ");
-                scanf(" %d", &y);
+                printf("\ncx: ");
+                scanf(" %d", &cx);
+                printf("cy: ");
+                scanf(" %d", &cy);
                 break;
             case 4:
                 printf("\nAngle: ");
                 scanf(" %d", &Angle);
                 break;
             case 5:
-                printf("\nx: ");
-                scanf(" %d", &x);
-                printf("y: ");
-                scanf(" %d", &y);
+                printf("\ncx: ");
+                scanf(" %d", &cx);
+                printf("cy: ");
+                scanf(" %d", &cy);
                 break;
             case 6:
+                {
+                if (linecolor ==0 || backcolor ==0)
+                {
+                    printf("\n Choose valid colors for line and back\n");
+                    break;
+                }
+                }
+                
+                const char *colors[] = {"red","green","blue"};
+                FILE *svg = fopen("export_shape.svg", "w");
+                if (svg == NULL) {
+                printf("\n==========\n");
+                printf("  Error\n");
+                printf("==========\n");
+                break;
+                }
+                
+                fprintf(svg,
+                    "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\">\n"
+                    "<g stroke=\"%s\" stroke-width=\"2\" fill=\"%s\">\n"
+                    "<circle cx=\"%d\" cy=\"%d\" r=\"%d\"/>\n"
+                    "</g>\n"
+                "</svg>\n",
+                colors[linecolor - 1],colors[backcolor - 1],cx,cy,r);
+                
+                fclose(svg);
+
+                printf("SVG Shape export");
+                break;
+            
+            
+            case 0:
                 printf("\nExiting Circle menu\n");
                 break;
 
             default:
-                printf("\nError");
+                printf("\n==========\n");
+                printf("  Error\n");
+                printf("==========\n");
                 break;
         }
         
 
-    } while (choose_in_menu != 6);
+    } while (choose_in_menu != 0);
 
     free(circle);
 }
-
-
